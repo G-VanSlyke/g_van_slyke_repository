@@ -2,7 +2,7 @@ using System.IO.Enumeration;
 
 class ProjectList
 {
-    List<Project> _projectList = [];
+    private List<Project> _projectList = [];
 
     public void AddProject(Project project)
     {
