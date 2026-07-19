@@ -1,4 +1,6 @@
-class ProjectWithWhileLoop : Project
+using System.Runtime.CompilerServices;
+
+class ProjectWithIfStatement : Project
 {
     public override void WriteCode()
     {
@@ -27,6 +29,7 @@ class ProjectWithWhileLoop : Project
                     GetHint();
                     Console.ReadLine();
                     Console.Clear();
+                    Console.Write(_code);
                 }
             }
             ProjectCheck();
@@ -34,47 +37,43 @@ class ProjectWithWhileLoop : Project
     }
     protected override void ProjectCheck()
     {
-        if (_code.Contains("if") & _code.Contains("while") & (_code.Contains(">") || _code.Contains("<")) & _code.Contains("(f"))
+        if (_code.Contains("if") & (_code.Contains("elif") || _code.Contains("else")) & (_code.Contains("<=") || _code.Contains(">=")))
         {
             Console.WriteLine("It looks like you have all the basics. Why don't you compare to the sample solution?");
-            Console.WriteLine($"\nYour code:{_code}" + "\n\nSample code:\nsecret_number = 72\nnumber = 0\nguess_count = 0\nwhile number != secret_number:\n\tif number > secret_number:\n\t\tprint('Too high.')\n\t\tif number - secret_number <= 20:\n\t\t\tprint('Hot!')\n\t\telse:\n\t\t\tprint('Cold.')\n\tif number <= secret_number:\n\t\tprint('Too low.')\n\t\tif secret_number - number <= 20:\n\t\t\tprint('Hot!')\n\t\telse:\n\t\t\tprint('Cold.')\n\tguess_count += 1\nprint(f'Congratulations! You guessed it in {guess_count} guesses.)");
+            Console.WriteLine($"\nYour code:\n{_code}\n\nSample code:\nnum = int(input('Select a number (1-100): '))\nif num <= 25:\n\tprint('0-25')\nelif num <= 50:\n\tprint('26-50')\nelif num <= 75:\n\tprint('51-75')\nelse:\n\tprint('76-100')");
             string answer = "";
             while (answer.ToLower() != "y" & answer.ToLower() != "n")
             {
-                Console.Write("Does your code have all the essential elements found in the sample?");
+                Console.Write("Does your code have all the essential elements found in the sample?(Y/N) ");
                 answer = Console.ReadLine();
-                if (answer.ToLower() == "y")
-                {
-                    Console.WriteLine("Congratulations! You've completed lesson 2!");
-                    _completed = true;
-                }
-                if (answer.ToLower() == "n")
-                {
-                    Console.WriteLine("Why don't you give it another try?");
-                    
-                }
+            }
+            if (answer.ToLower() == "y")
+            {
+               Console.WriteLine("Congratulations! You've completed lesson 2!");
+                _completed = true;
+            }
+            else
+            {
+                Console.WriteLine("Why don't you give it another try?");
+                
             }
         }
         if (! _code.Contains("if"))
         {
-            Console.WriteLine("It looks like you're missing some 'if' statements.");
+            Console.WriteLine("It looks like you're missing if statements.");
         }
-        if (! _code.Contains("while"))
+        if (! _code.Contains("elif") & ! _code.Contains("else"))
         {
-            Console.WriteLine("It looks like you're missing the 'while' loop.");
+            Console.WriteLine("It looks like you are missing 'else'/'elif' statements.");
         }
-        if (! (_code.Contains("<") || _code.Contains(">")))
+        if (! _code.Contains("<=") & ! _code.Contains(">="))
         {
-            Console.WriteLine("It looks like you're missing some comparison operators (<, >, <=, >=, !=, etc.)");
-        }
-        if (! _code.Contains("(f"))
-        {
-            Console.WriteLine("It looks like you're missing a format string (i.e. print(f''))");
+            Console.WriteLine("It looks like you're missing comparison operators (<=/>=).");
         }
         Console.ReadLine();
         Console.Clear();
     }
-    public ProjectWithWhileLoop(string title, List<string> hints) : base(title, hints)
+    public ProjectWithIfStatement(string title, List<string> hints) : base(title, hints)
     {
         
     }

@@ -1,4 +1,6 @@
-class ProjectWithWhileLoop : Project
+using System.Reflection;
+
+class LoopsAndListsProject : Project
 {
     public override void WriteCode()
     {
@@ -34,47 +36,46 @@ class ProjectWithWhileLoop : Project
     }
     protected override void ProjectCheck()
     {
-        if (_code.Contains("if") & _code.Contains("while") & (_code.Contains(">") || _code.Contains("<")) & _code.Contains("(f"))
+        if (_code.Contains("while") & _code.Contains("for") & _code.Contains(".append(") & _code.Contains("/"))
         {
             Console.WriteLine("It looks like you have all the basics. Why don't you compare to the sample solution?");
-            Console.WriteLine($"\nYour code:{_code}" + "\n\nSample code:\nsecret_number = 72\nnumber = 0\nguess_count = 0\nwhile number != secret_number:\n\tif number > secret_number:\n\t\tprint('Too high.')\n\t\tif number - secret_number <= 20:\n\t\t\tprint('Hot!')\n\t\telse:\n\t\t\tprint('Cold.')\n\tif number <= secret_number:\n\t\tprint('Too low.')\n\t\tif secret_number - number <= 20:\n\t\t\tprint('Hot!')\n\t\telse:\n\t\t\tprint('Cold.')\n\tguess_count += 1\nprint(f'Congratulations! You guessed it in {guess_count} guesses.)");
+            Console.WriteLine($"\nYour code:\n{_code}" + "\n\nSample code:\nnumber_list = []\nnumber = -1\nwhile number != 0:\n\tnumber = int(input('What number will you add (0 to quit)?'))\n\tif number != 0:\n\t\tnumber_list.append(number)\ntotal = 0\ncount = 0\nfor number in numbers:\n\ttotal += number\n\tcount += 1\nprint(f'The average is {total/count}.)");
             string answer = "";
             while (answer.ToLower() != "y" & answer.ToLower() != "n")
             {
-                Console.Write("Does your code have all the essential elements found in the sample?");
+                Console.Write("Does your code have all the essential elements found in the sample?(Y/N) ");
                 answer = Console.ReadLine();
                 if (answer.ToLower() == "y")
                 {
-                    Console.WriteLine("Congratulations! You've completed lesson 2!");
+                    Console.WriteLine("Congratulations! You've completed the final lesson!");
                     _completed = true;
                 }
                 if (answer.ToLower() == "n")
                 {
-                    Console.WriteLine("Why don't you give it another try?");
-                    
+                    Console.WriteLine("Why don't we try again?");
                 }
             }
         }
-        if (! _code.Contains("if"))
-        {
-            Console.WriteLine("It looks like you're missing some 'if' statements.");
-        }
         if (! _code.Contains("while"))
         {
-            Console.WriteLine("It looks like you're missing the 'while' loop.");
+            Console.WriteLine("It looks like you're missing a 'while' loop");
         }
-        if (! (_code.Contains("<") || _code.Contains(">")))
+        if (! _code.Contains("for"))
         {
-            Console.WriteLine("It looks like you're missing some comparison operators (<, >, <=, >=, !=, etc.)");
+            Console.WriteLine("It looks like you're missing a 'for' loop.");
         }
-        if (! _code.Contains("(f"))
+        if (! _code.Contains(".append("))
         {
-            Console.WriteLine("It looks like you're missing a format string (i.e. print(f''))");
+            Console.WriteLine("It looks like you're missing a way to append to your list (list.append()).");
+        }
+        if (! _code.Contains("/"))
+        {
+            Console.WriteLine("It looks like you're missing a way to calculate the average (average = total/count).");
         }
         Console.ReadLine();
         Console.Clear();
     }
-    public ProjectWithWhileLoop(string title, List<string> hints) : base(title, hints)
+    public LoopsAndListsProject(string title, List<string> hints) : base(title, hints)
     {
         
     }
