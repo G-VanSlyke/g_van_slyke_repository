@@ -3,18 +3,14 @@ using System.Security.Cryptography.X509Certificates;
 
 class Lessons
 {
-    string _name;
-    int _progress = 0;
+    private string _name;
+    private int _progress = 0;
 
     public Lessons()
     {
 
     }
 
-    public void SetProgress(int prog)
-    {
-        _progress = prog;
-    }
     public void LoadProgress()
     {
         if (File.Exists("progress.txt"))
@@ -44,29 +40,37 @@ class Lessons
         Console.Clear();
         int lessonChoice = 0;
         Console.WriteLine("Which lesson would you like to do?\n1\n2\n3\n4\n(5 to quit)");
-        lessonChoice = int.Parse(Console.ReadLine());
-        if (lessonChoice == 1)
+        try
         {
-            return Lesson1();
+            lessonChoice = int.Parse(Console.ReadLine());
+            if (lessonChoice == 1)
+            {
+                return Lesson1();
+            }
+            if (lessonChoice == 2)
+            {
+                return Lesson2();
+            }
+            if (lessonChoice == 3)
+            {
+                return Lesson3();
+            }
+            if (lessonChoice == 4)
+            {
+                return Lesson4();
+            }
+            else
+            {
+                Project empty = new SimpleProject("", []);
+                return empty;
+            }
         }
-        if (lessonChoice == 2)
+        catch (System.FormatException)
         {
-            return Lesson2();
-        }
-        if (lessonChoice == 3)
-        {
-            return Lesson3();
-        }
-        if (lessonChoice == 4)
-        {
-            return Lesson4();
-        }
-        else
-        {
+            Console.WriteLine("Entry must be an integer.");
             Project empty = new SimpleProject("", []);
             return empty;
         }
-        
     }
 
     public int GetProgress()
@@ -119,9 +123,16 @@ class Lessons
         Console.Write("What is your name? ");
         string name = Console.ReadLine();
         Console.Write("\nHow old are you? ");
-        int age = int.Parse(Console.ReadLine());
-        Console.WriteLine($"\nHello, {name}. In five years, you will be {age + 5} years old.");
-        Console.WriteLine("\nGot it?");
+        try 
+        {
+            int age = int.Parse(Console.ReadLine());
+            Console.WriteLine($"\nHello, {name}. In five years, you will be {age + 5} years old.");
+            Console.WriteLine("\nGot it?");
+        }
+        catch (System.FormatException)
+        {
+            Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
+        }
         Console.ReadLine();
         Console.Clear();
         Console.WriteLine("Oh. One more thing before we begin: In order to print a variable for the user to see, you can use one of two methods.\n\nThe long method:\nprint('Hello,' + name + '. In five years, you will be' + str(age + 5) + 'years old.')");
@@ -166,25 +177,32 @@ class Lessons
             Console.ReadLine();
             Console.Clear();
             Console.WriteLine("Now, let's see how it works.");
-            Console.Write("Guess my favorite number: ");
-            int number = int.Parse(Console.ReadLine());
-            if (number == 7)
+            try
             {
-                Console.WriteLine("You guessed it!");
+                Console.Write("Guess my favorite number: ");
+                int number = int.Parse(Console.ReadLine());
+                if (number == 7)
+                {
+                    Console.WriteLine("You guessed it!");
+                }
+                else
+                {
+                    Console.WriteLine("Not quite.");
+                }
+                if (number > 7)
+                {
+                    Console.WriteLine("Too high.");
+                }
+                if (number < 7)
+                {
+                    Console.WriteLine("Too low.");
+                }
+                Console.WriteLine("\nGot it?");
             }
-            else
+            catch (System.FormatException)
             {
-                Console.WriteLine("Not quite.");
+                Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
             }
-            if (number > 7)
-            {
-                Console.WriteLine("Too high.");
-            }
-            if (number < 7)
-            {
-                Console.WriteLine("Too low.");
-            }
-            Console.WriteLine("\nGot it?");
             Console.ReadLine();
             Console.Clear();
             Console.WriteLine("Now that you know how conditions work, what do you do when you have multiple? This is where 'else' and 'elif' come in.\nIf you had a series of if statements, the program would check all of them to see if they were true, but what if you only want them to get checked if the first condition was false? Here's an example:");
@@ -193,23 +211,30 @@ class Lessons
             Console.Clear();
             Console.WriteLine("In the example you just saw, the program first checks if the number 'grade' is 90 or higher, and if it is, the grade is an A. 'elif' is short for 'else if' and makes it so that the program only checks if the grade is a C or a B if it is not an A.\nSimilarly, 'else' is used to prescribe a course of action if none of the prior if statements are true.");
             Console.WriteLine("Now, for this lesson's project you will place numbers within a range. The user will provide a number from 0-100, and your program will determine in what range that number falls. The ranges will be '1-25', '26-50', '51-75', and '76-100'. It should work as follows:");
-            Console.WriteLine("Select a number (1-100): ");
-            int num = int.Parse(Console.ReadLine());
-            if (num <= 25)
+            try 
             {
-                Console.WriteLine("0-25");
+                Console.WriteLine("Select a number (1-100): ");
+                int num = int.Parse(Console.ReadLine());
+                if (num <= 25)
+                {
+                    Console.WriteLine("0-25");
+                }
+                else if (num <= 50)
+                {
+                    Console.WriteLine("26-50");
+                }
+                else if (num <= 75)
+                {   
+                    Console.WriteLine("51-75");
+                }
+                else
+                {
+                    Console.WriteLine("76-100");
+                }
             }
-            else if (num <= 50)
+            catch (System.FormatException)
             {
-                Console.WriteLine("26-50");
-            }
-            else if (num <= 75)
-            {
-                Console.WriteLine("51-75");
-            }
-            else
-            {
-                Console.WriteLine("76-100");
+                Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
             }
             Console.WriteLine("It's that simple. Ready to give it a try?\nThe way you write this program will be similar to the last. 'QUIT' to end and 'HINT' to receive a hint. In Python, the instructions of an if statement need to be indented. This will be taken care of automatically. To remove an indent, type 'EXIT'.");
             Console.ReadLine();
@@ -255,17 +280,24 @@ class Lessons
             int numberOfGuesses = 0;
             while (guess != 7)
             {
-                Console.Write("Guess my number (1-10): ");
-                guess = int.Parse(Console.ReadLine());
-                if (guess > 7)
+                try 
                 {
-                    Console.WriteLine("Too high. Try again.");
+                    Console.Write("Guess my number (1-10): ");
+                    guess = int.Parse(Console.ReadLine());
+                    if (guess > 7)
+                    {
+                        Console.WriteLine("Too high. Try again.");
+                    }
+                    if (guess < 7)
+                    {
+                        Console.WriteLine("Too low. Try again.");
+                    }
+                    numberOfGuesses += 1;
                 }
-                if (guess < 7)
+                catch (System.FormatException)
                 {
-                    Console.WriteLine("Too low. Try again.");
+                    Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
                 }
-                numberOfGuesses += 1;
             }
             Console.WriteLine($"Congratualations! You guessed it in {numberOfGuesses} guesses!");
             Console.ReadLine();
@@ -280,33 +312,40 @@ class Lessons
             int guessCount = 0;
             while (num != secretNum)
             {
-                Console.Write("\nGuess the number (1-100): ");
-                num = int.Parse(Console.ReadLine());
-                if (num > secretNum)
+                try 
                 {
-                    Console.WriteLine("Too high.");
-                    if (num - secretNum <= 20)
+                    Console.Write("\nGuess the number (1-100): ");
+                    num = int.Parse(Console.ReadLine());
+                    if (num > secretNum)
                     {
-                        Console.WriteLine("Hot!");
+                        Console.WriteLine("Too high.");
+                        if (num - secretNum <= 20)
+                        {
+                            Console.WriteLine("Hot!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Cold.");
+                        }
                     }
-                    else
+                    if (num < secretNum)
                     {
-                        Console.WriteLine("Cold.");
+                        Console.WriteLine("Too low.");
+                        if (secretNum - num <= 20)
+                        {
+                            Console.WriteLine("Hot!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Cold.");
+                        }
                     }
+                    guessCount += 1;
                 }
-                if (num < secretNum)
+                catch (System.FormatException)
                 {
-                    Console.WriteLine("Too low.");
-                    if (secretNum - num <= 20)
-                    {
-                        Console.WriteLine("Hot!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Cold.");
-                    }
+                    Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
                 }
-                guessCount += 1;
             }
             Console.WriteLine($"Congratulations! You got it in {guessCount} guesses.");
             Console.ReadLine();
@@ -375,9 +414,16 @@ class Lessons
             int number = -1;
             while (number != 0)
             {
-                Console.Write("What number will you add (0 to quit)? ");
-                number = int.Parse(Console.ReadLine());
-                numberList.Add(number);
+                try
+                {
+                    Console.Write("What number will you add (0 to quit)? ");
+                    number = int.Parse(Console.ReadLine());
+                    numberList.Add(number); 
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
+                }   
             }
             float total = 0;
             foreach (int entry in numberList)
@@ -392,11 +438,18 @@ class Lessons
             number = -1;
             while (number != 0)
             {
-                Console.Write("What number will you add (0 to quit)? ");
-                number = int.Parse(Console.ReadLine());
-                if (number != 0)
+                try
                 {
-                    numberList.Add(number);
+                    Console.Write("What number will you add (0 to quit)? ");
+                    number = int.Parse(Console.ReadLine());
+                    if (number != 0)
+                    {
+                        numberList.Add(number);
+                    }
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine("Entering a value with characters other than numbers where an integer is required causes the program to crash. Be careful about that.");
                 }
             }
             total = 0;
